@@ -41,7 +41,7 @@ module.exports = function(app) {
 
 // API route to check if an email exists in the database
 app.get('/api/check-email', async (req, res) => {
-  const email = req.query.email;
+  const email = req.body.email;
 
   if (!email) {
     return res.status(400).json({ success: false, message: 'Email query parameter is required' });
