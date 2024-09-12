@@ -10,6 +10,11 @@ exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
+    fname: req.body.fname,
+    sname: req.body.sname,
+    account: req.body.account,
+    phoneno: req.body.phoneno,
+    city: req.body.city,   
     password: bcrypt.hashSync(req.body.password, 8)
   });
 
@@ -106,6 +111,11 @@ exports.signin = (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        fname: user.fname,
+        sname: user.sname,
+        account: user.account,
+        phoneno: user.phoneno,
+        city: user.city,
         roles: authorities,
         accessToken: token
       });
@@ -156,6 +166,11 @@ exports.signina = (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        fname: user.fname,
+        sname: user.sname,
+        account: user.account,
+        phoneno: user.phoneno,
+        city: user.city,
         roles: authorities,
         accessToken: token
       });
