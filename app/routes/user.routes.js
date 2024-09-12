@@ -63,6 +63,28 @@ app.get('/api/check-email', async (req, res) => {
   }
 });
 
+app.get('/api/check-account', async (req, res) => {
+  const account = req.query.account;
+
+  if (!account) {
+    return res.status(400).json({ success: false, message: 'account query parameter is required' });
+  }
+
+  try {
+    // Check if the email exists in the database
+    const user = await User.findOne({ account: account });
+    
+    if (user) {
+      return res.status(200).json({ success: true, message: 'account exists' });
+    } else {
+      return res.status(404).json({ success: false, message: 'account does not exist' });
+    }
+  } catch (error) {
+    console.error('Error checking account:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 
 app.get('/check-email', async (req, res) => {
   const { email } = req.query;
