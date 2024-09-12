@@ -38,9 +38,10 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
-
+// Middleware to parse JSON bodies
+app.use(express.json());
 // API route to check if an email exists in the database
-app.get('/api/check-email', async (req, res) => {
+app.get('/api/check-email', (req, res) => {
   const email = req.body.email;
 
   if (!email) {
@@ -49,7 +50,7 @@ app.get('/api/check-email', async (req, res) => {
 
   try {
     // Check if the email exists in the database
-    const user = await User.findOne({ email: email });
+    const user = User.findOne({ email: email });
     
     if (user) {
       return res.status(200).json({ success: true, message: 'Email exists' });
