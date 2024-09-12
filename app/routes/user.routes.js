@@ -49,7 +49,7 @@ app.get('/api/check-email', async (req, res) => {
 
   try {
     // Check if the email exists in the database
-    const user = await user.findOne({ email: email });
+    const user = await User.findOne({ email: email });
     
     if (user) {
       return res.status(200).json({ success: true, message: 'Email exists' });
