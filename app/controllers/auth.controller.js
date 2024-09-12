@@ -176,3 +176,25 @@ exports.signina = (req, res) => {
       });
     });
 };
+
+exports.checkemail = (req, res) => {
+  const email = req.query.email;
+
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Email query parameter is required' });
+  }
+
+  try {
+    // Check if the email exists in the database
+    const user = User.findOne({ email: email });
+    
+    if (user) {
+      return res.status(200).json({ success: true, message: 'Email exists' });
+    } else {
+      return res.status(404).json({ success: false, message: 'Email does not exist' });
+    }
+  } catch (error) {
+    console.error('Error checking email:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+}

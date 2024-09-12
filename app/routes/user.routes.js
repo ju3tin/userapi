@@ -1,5 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
+const User = require('../models/user.model')
 const cities = [
   "London",
   "Manchester",
@@ -61,6 +62,28 @@ app.get('/api/check-email', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+
+app.get('/check-email', async (req, res) => {
+  const { email } = req.query;
+
+  if (!email) {
+      return res.status(400).json({ success: false, message: 'Email query parameter is required' });
+  }
+
+  try {
+      const user = await User.findOne({ email });
+      
+      if (user) {
+          return res.status(200).json({ success: true, message: 'Email exists' });
+      } else {
+          return res.status(404).json({ success: false, message: 'Email does not exist' });
+      }
+  } catch (error) {
+      console.error('Error checking email:', error);
+      res.status(500).json({ success: false, message: 'Server error' });
+  }
+})
   
   // GET route to return the list of UK cities
   app.get('/api/cities', (req, res) => {
