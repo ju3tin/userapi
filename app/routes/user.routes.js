@@ -1,5 +1,18 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
+const cities = [
+  "London",
+  "Manchester",
+  "Birmingham",
+  "Liverpool",
+  "Leeds",
+  "Sheffield",
+  "Bristol",
+  "Glasgow",
+  "Edinburgh",
+  "Cardiff",
+  "Belfast"
+];
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -25,4 +38,16 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
+
+
+  
+  // GET route to return the list of UK cities
+  app.get('/api/cities', (req, res) => {
+    res.status(200).json({
+      success: true,
+      cities: cities
+    });
+  });
+
+
 };
